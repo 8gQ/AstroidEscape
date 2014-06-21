@@ -9,7 +9,7 @@ TODO
 - [x] Finish implementing ads
 - [x] Implement Google Analytics
 - [ ] Implement Google Leaderboards and Acheivments
-- [ ] Implement Facebook install analytics
+- [x] Implement Facebook install analytics
 - [ ] Implement Facebook score posting
 - [ ] Implement Twitter score posting
 - [ ] Fix collision boxes on LargeAsteroid
