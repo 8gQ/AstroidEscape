@@ -7,7 +7,7 @@ An arcade space survival game.
 TODO
 ====
 - [x] Finish implementing ads
-- [ ] Implement Google Analytics
+- [x] Implement Google Analytics
 - [ ] Implement Google Leaderboards and Acheivments
 - [ ] Implement Facebook install analytics
 - [ ] Implement Facebook score posting
