@@ -53,18 +53,21 @@ public class GameWorld {
 		switch (currentState) {
 		case READY:
 			updateReady(delta);
+			AssetLoader.myRequestHandler.showAds(false);
 			break;
 		case MENU:
 			updateMenu(delta);
+			AssetLoader.myRequestHandler.showAds(true);
 			break;
 		case RUNNING:
 			updateRunning(delta);
+			AssetLoader.myRequestHandler.showAds(false);
 			break;
 		case GAMEOVER:
-			// TODO show ad
+			AssetLoader.myRequestHandler.showAds(true);
 			break;
 		case HIGHSCORE:
-			// TODO submit high score
+			AssetLoader.myRequestHandler.showAds(true);
 			break;
 		default:
 			break;

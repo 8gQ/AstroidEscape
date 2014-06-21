@@ -1,19 +1,24 @@
 package ca.codybanman.AstroidEscape;
 
 import ca.codybanman.AEHelpers.AssetLoader;
+import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.Screens.GameScreen;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 
+public class AEGame extends Game implements ApplicationListener {
+	private IActivityRequestHandler myRequestHandler;
 
-public class AEGame extends Game {
+    public AEGame(IActivityRequestHandler handler) {
+        myRequestHandler = handler;
+    }
 
 	@Override
 	public void create() {
 		System.out.println("AEGame Created!");
-		AssetLoader.load();
+		AssetLoader.load(myRequestHandler);
 		setScreen(new GameScreen());
-
 
 	}
 

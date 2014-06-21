@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-//	public static IActivityRequestHandler myRequestHandler;
+	public static IActivityRequestHandler myRequestHandler;
 //	public static ActionResolver actionResolver;
 
 	public static Texture texture;
@@ -27,7 +27,9 @@ public class AssetLoader {
 
 	public static Preferences prefs;
 
-	public static void load() {
+	public static void load(IActivityRequestHandler handler) {
+		
+		myRequestHandler = handler;
 
 		prefs = Gdx.app.getPreferences("AsteroidEscape");
 
