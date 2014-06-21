@@ -14,6 +14,7 @@ import ca.codybanman.AstroidEscape.AEGame;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -93,6 +94,12 @@ public class AndroidLauncher extends AndroidApplication implements
 		adView.loadAd(adRequest);
 		adView.resume();
 
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		AppEventsLogger.activateApp(this, "1441691276089861");
 	}
 
 	@Override
