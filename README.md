@@ -12,7 +12,7 @@ TODO
 - [ ] Implement Facebook install analytics
 - [ ] Implement Facebook score posting
 - [ ] Implement Twitter score posting
-- [ ] Fix collision boxes on asteroids
+- [ ] Fix collision boxes on LargeAsteroid
 
 Ideas
 =====
