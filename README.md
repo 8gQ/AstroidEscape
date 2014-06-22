@@ -13,6 +13,7 @@ TODO
 - [ ] Implement Facebook score posting
 - [ ] Implement Twitter score posting
 - [ ] Fix collision boxes on LargeAsteroid
+- [ ] Resize buttons to be all the same size
 
 Ideas
 =====
