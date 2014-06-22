@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.AstroidEscape.AEGame;
+import ca.codybanman.GameServices.ActionResolver;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -19,9 +20,14 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.GameHelper;
+import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 public class AndroidLauncher extends AndroidApplication implements
-		IActivityRequestHandler {
+		IActivityRequestHandler, GameHelperListener, ActionResolver {
+
+	private GameHelper gameHelper;
 
 	private final int SHOW_ADS = 1;
 	private final int HIDE_ADS = 0;
@@ -47,6 +53,8 @@ public class AndroidLauncher extends AndroidApplication implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		gameHelper = new GameHelper(this, GameHelper.CLIENT_ALL);
 
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		cfg.useGLSurfaceView20API18 = true;
@@ -74,7 +82,8 @@ public class AndroidLauncher extends AndroidApplication implements
 								// positioning in createGameView()
 		RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+				RelativeLayout.TRUE);
 		adParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		adView.setLayoutParams(adParams);
 		adView.setBackgroundColor(Color.argb(1, 23, 23, 23));
@@ -95,7 +104,7 @@ public class AndroidLauncher extends AndroidApplication implements
 		adView.resume();
 
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -105,6 +114,7 @@ public class AndroidLauncher extends AndroidApplication implements
 	@Override
 	public void onStart() {
 		super.onStart();
+
 		EasyTracker.getInstance(this).activityStart(this); // Add this method.
 	}
 
@@ -117,5 +127,63 @@ public class AndroidLauncher extends AndroidApplication implements
 	@Override
 	public void showAds(boolean show) {
 		handler.sendEmptyMessage(show ? SHOW_ADS : HIDE_ADS);
+	}
+
+	@Override
+	public boolean getSignedInGPGS() {
+		return gameHelper.isSignedIn();
+	}
+
+	@Override
+	public void loginGPGS() {
+		try {
+			runOnUiThread(new Runnable() {
+				public void run() {
+					gameHelper.beginUserInitiatedSignIn();
+				}
+			});
+		} catch (final Exception ex) {
+		}
+	}
+
+	@Override
+	public void submitScoreGPGS(int score) {
+		Games.Leaderboards.submitScore(gameHelper.getApiClient(), "CgkIuZDUg8cCEAIQAQ", score);
+	}
+
+	@Override
+	public void unlockAchievementGPGS(String achievementId) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void getLeaderboardGPGS() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void getAchievementsGPGS() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void signIn() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSignInFailed() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+		// TODO Auto-generated method stub
+
 	}
 }
