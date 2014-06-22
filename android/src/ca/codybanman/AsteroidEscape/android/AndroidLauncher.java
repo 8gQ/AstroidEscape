@@ -1,4 +1,4 @@
-package ca.codybanman.AstroidEscape.android;
+package ca.codybanman.AsteroidEscape.android;
 
 import android.app.ActionBar.LayoutParams;
 import android.graphics.Color;
