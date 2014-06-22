@@ -35,7 +35,7 @@ public class AndroidLauncher extends AndroidApplication implements
 				break;
 			}
 			case HIDE_ADS: {
-				adView.setVisibility(View.GONE);
+				adView.setVisibility(View.INVISIBLE);
 				break;
 			}
 			}
@@ -74,14 +74,14 @@ public class AndroidLauncher extends AndroidApplication implements
 								// positioning in createGameView()
 		RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		adParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		adView.setLayoutParams(adParams);
 		adView.setBackgroundColor(Color.argb(1, 23, 23, 23));
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.BELOW, adView.getId());
 		gameView.setLayoutParams(params);
