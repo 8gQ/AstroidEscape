@@ -1,4 +1,4 @@
-AstroidEscape
+AstroidEscape - Android
 =============
 
 An arcade space survival game.
