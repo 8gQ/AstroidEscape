@@ -72,7 +72,11 @@ public class InputHandler implements InputProcessor {
 				return true;
 			} else if (myWorld.getButtonHandler().getHighScoreButton()
 					.isTouchUp(position.x, position.y)) {
-				// TODO get high scores
+				if(!AssetLoader.actionResolver.getSignedInGPGS()) {
+					AssetLoader.actionResolver.signIn();
+				} else {
+					AssetLoader.actionResolver.getLeaderboardGPGS();
+				}
 				return true;
 			}
 		}
@@ -84,7 +88,11 @@ public class InputHandler implements InputProcessor {
 				return true;
 			} else if (myWorld.getButtonHandler().getHighScoreButton()
 					.isTouchUp(position.x, position.y)) {
-				// TODO get high scores
+				if(!AssetLoader.actionResolver.getSignedInGPGS()) {
+					AssetLoader.actionResolver.signIn();
+				} else {
+					AssetLoader.actionResolver.getLeaderboardGPGS();
+				}
 				return true;
 			}
 		}

@@ -1,25 +1,33 @@
 package ca.codybanman.AEHelpers;
 
+import ca.codybanman.GameServices.ActionResolver;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
 	public static IActivityRequestHandler myRequestHandler;
-//	public static ActionResolver actionResolver;
+	public static ActionResolver actionResolver;
 
-	public static Texture texture;
+	public static AssetManager assets;
+	public static TextureAtlas spriteSheet;
 
 	public static Animation shipAnimation;
-	public static TextureRegion bg, ship1, ship2, asteroidSml, asteroidMed,
+
+	public static Sprite bg, ship1, ship2, asteroidSml, asteroidMed,
 			asteroidLrg, title, playButtonUp, playButtonDown, retryButtonUp,
-			retryButtonDown, highScoreButtonUp, highScoreButtonDown;
+			retryButtonDown, highScoreButtonUp, highScoreButtonDown,
+			facebookUp, facebookDown;
 
 	public static Sound shoot, dead, deadAsteroid;
 
@@ -27,60 +35,65 @@ public class AssetLoader {
 
 	public static Preferences prefs;
 
-	public static void load(IActivityRequestHandler handler) {
-		
+	public static void load(IActivityRequestHandler handler,
+			ActionResolver resolver) {
+
 		myRequestHandler = handler;
+		actionResolver = resolver;
 
 		prefs = Gdx.app.getPreferences("AsteroidEscape");
 
 		if (!prefs.contains("highScore")) {
 			prefs.putInteger("highScore", 0);
 		}
+		
+		assets = new AssetManager();
+		assets.load("spritesheet.pack", TextureAtlas.class);
+		assets.finishLoading();
 
-		texture = new Texture(Gdx.files.internal("texture.png"));
-		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		spriteSheet = assets.get("spritesheet.pack");
 
-		title = new TextureRegion(texture, 0, 47, 98, 42);
+		title = spriteSheet.createSprite("Title");
 		title.flip(false, true);
 
-		playButtonUp = new TextureRegion(texture, 0, 89, 27, 11);
+		playButtonUp = spriteSheet.createSprite("Play_Up");
 		playButtonUp.flip(false, true);
 
-		playButtonDown = new TextureRegion(texture, 27, 89, 27, 11);
+		playButtonDown = spriteSheet.createSprite("Play_Down");
 		playButtonDown.flip(false, true);
 
-		retryButtonUp = new TextureRegion(texture, 0, 100, 57, 11);
+		retryButtonUp = spriteSheet.createSprite("PlayAgain_Up");
 		retryButtonUp.flip(false, true);
 
-		retryButtonDown = new TextureRegion(texture, 0, 111, 57, 11);
+		retryButtonDown = spriteSheet.createSprite("PlayAgain_Down");
 		retryButtonDown.flip(false, true);
 
-		highScoreButtonUp = new TextureRegion(texture, 0, 122, 54, 11);
+		highScoreButtonUp = spriteSheet.createSprite("Highscore_Up");
 		highScoreButtonUp.flip(false, true);
 
-		highScoreButtonDown = new TextureRegion(texture, 0, 133, 54, 11);
+		highScoreButtonDown = spriteSheet.createSprite("Highscore_Down");
 		highScoreButtonDown.flip(false, true);
 
-		bg = new TextureRegion(texture, 119, 0, 136, 240);
+		bg = spriteSheet.createSprite("Background");
 		bg.flip(false, true);
 
-		ship1 = new TextureRegion(texture, 0, 0, 25, 24);
+		ship1 = spriteSheet.createSprite("Ship2");
 		ship1.flip(false, true);
 
-		ship2 = new TextureRegion(texture, 25, 0, 25, 24);
+		ship2 = spriteSheet.createSprite("Ship3");
 		ship2.flip(false, true);
 
 		TextureRegion[] ships = { ship1, ship2 };
 		shipAnimation = new Animation(0.03f, ships);
 		shipAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-		asteroidSml = new TextureRegion(texture, 0, 24, 14, 14);
+		asteroidSml = spriteSheet.createSprite("Asteroid_sml");
 		asteroidSml.flip(false, true);
 
-		asteroidMed = new TextureRegion(texture, 50, 0, 23, 25);
+		asteroidMed = spriteSheet.createSprite("Asteroid_med");
 		asteroidMed.flip(false, true);
 
-		asteroidLrg = new TextureRegion(texture, 73, 0, 46, 47);
+		asteroidLrg = spriteSheet.createSprite("Asteroid_lrg");
 		asteroidLrg.flip(false, true);
 
 		shoot = Gdx.audio.newSound(Gdx.files.internal("shoot.wav"));
@@ -90,7 +103,7 @@ public class AssetLoader {
 
 		font = new BitmapFont(Gdx.files.internal("font.fnt"));
 		font.setScale(.25f, -.25f);
-		
+
 		System.out.println("Assets Loaded!");
 
 	}
@@ -98,6 +111,10 @@ public class AssetLoader {
 	public static void setHighScore(float val) {
 		prefs.putFloat("highScore", val);
 		prefs.flush();
+		if (actionResolver.getSignedInGPGS()) {
+			actionResolver
+					.submitScoreGPGS((int) (prefs.getFloat("highScore")) * 100);
+		}
 	}
 
 	public static float getHighScore() {
@@ -105,7 +122,7 @@ public class AssetLoader {
 	}
 
 	public static void dispose() {
-		texture.dispose();
+		spriteSheet.dispose();
 		shoot.dispose();
 		dead.dispose();
 		deadAsteroid.dispose();

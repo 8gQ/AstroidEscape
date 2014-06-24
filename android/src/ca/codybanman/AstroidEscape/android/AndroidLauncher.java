@@ -1,5 +1,6 @@
 package ca.codybanman.AstroidEscape.android;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.RelativeLayout;
 import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.AstroidEscape.AEGame;
 import ca.codybanman.GameServices.ActionResolver;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.facebook.AppEventsLogger;
@@ -24,7 +24,7 @@ import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
-public class AndroidLauncher extends AndroidApplication implements
+@SuppressLint("HandlerLeak") public class AndroidLauncher extends AndroidApplication implements
 		IActivityRequestHandler, GameHelperListener, ActionResolver {
 
 	private GameHelper gameHelper;
@@ -69,7 +69,7 @@ public class AndroidLauncher extends AndroidApplication implements
 		getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
-		View gameView = initializeForView(new AEGame(this), cfg);
+		View gameView = initializeForView(new AEGame(this, this), cfg);
 
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
@@ -153,20 +153,17 @@ public class AndroidLauncher extends AndroidApplication implements
 
 	@Override
 	public void unlockAchievementGPGS(String achievementId) {
-		// TODO Auto-generated method stub
-
+		Games.Achievements.unlock(gameHelper.getApiClient(), achievementId);
 	}
 
 	@Override
 	public void getLeaderboardGPGS() {
-		// TODO Auto-generated method stub
-
+		this.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), "CgkIuZDUg8cCEAIQAQ"), 15453525);
 	}
 
 	@Override
 	public void getAchievementsGPGS() {
-		// TODO Auto-generated method stub
-
+		startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 15154545);
 	}
 
 	@Override

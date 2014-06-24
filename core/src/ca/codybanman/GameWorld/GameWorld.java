@@ -35,7 +35,7 @@ public class GameWorld {
 		this.midPointX = midPointX;
 		this.midPointY = midPointY;
 		currentState = GameState.MENU;
-		
+
 		// Initialize GameObjects here
 		ship = new Ship(midPointX - 12, 150, 25, 24);
 		asteroidHandler = new AsteroidHandler();
@@ -45,6 +45,11 @@ public class GameWorld {
 		buttonHandler = new ButtonHandler(this);
 
 		score = 0;
+
+		if (AssetLoader.actionResolver.getSignedInGPGS()) {
+			AssetLoader.actionResolver.submitScoreGPGS((int) (AssetLoader.prefs
+					.getFloat("highScore")) * 100);
+		}
 
 	}
 
@@ -68,6 +73,7 @@ public class GameWorld {
 			break;
 		case HIGHSCORE:
 			AssetLoader.myRequestHandler.showAds(true);
+			AssetLoader.setHighScore(score);
 			break;
 		default:
 			break;
@@ -122,7 +128,6 @@ public class GameWorld {
 							currentState = GameState.GAMEOVER;
 
 							if (score > AssetLoader.getHighScore()) {
-								AssetLoader.setHighScore(score);
 								currentState = GameState.HIGHSCORE;
 							}
 							break;

@@ -3,6 +3,8 @@ package ca.codybanman.GameObjects;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ca.codybanman.AEHelpers.AssetLoader;
+
 public class AsteroidHandler {
 
 	private Random r;
@@ -41,10 +43,13 @@ public class AsteroidHandler {
 					asteroids.remove(i);
 					break;
 				case 2:
-					asteroids.add(new AsteroidSmall(asteroid.getX(), asteroid
-							.getY(), 14, 14, r.nextInt((int) (asteroid
-							.getVelocity().y + 1)) / 3, r
-							.nextInt(SCROLL_SPEED - 10) + 10));
+					asteroids
+							.add(new AsteroidSmall(asteroid.getX(), asteroid
+									.getY(), (int) AssetLoader.asteroidSml
+									.getWidth(), (int) AssetLoader.asteroidSml
+									.getWidth(), r.nextInt((int) (asteroid
+									.getVelocity().y + 1)) / 3, r
+									.nextInt(SCROLL_SPEED - 10) + 10));
 					asteroids.add(new AsteroidSmall(asteroid.getX(), asteroid
 							.getY(), 14, 14, -r.nextInt((int) (asteroid
 							.getVelocity().y + 1)) / 3, r
@@ -52,14 +57,20 @@ public class AsteroidHandler {
 					asteroids.remove(i);
 					break;
 				case 4:
-					asteroids.add(new AsteroidMedium(asteroid.getX(), asteroid
-							.getY(), 23, 25, r.nextInt((int) (asteroid
-							.getVelocity().y + 1)) / 3, r
-							.nextInt(SCROLL_SPEED - 10) + 10));
-					asteroids.add(new AsteroidMedium(asteroid.getX(), asteroid
-							.getY(), 23, 25, -r.nextInt((int) (asteroid
-							.getVelocity().y + 1)) / 3, r
-							.nextInt(SCROLL_SPEED - 10) + 10));
+					asteroids
+							.add(new AsteroidMedium(asteroid.getX(), asteroid
+									.getY(), (int) AssetLoader.asteroidMed
+									.getWidth(), (int) AssetLoader.asteroidMed
+									.getWidth(), r.nextInt((int) (asteroid
+									.getVelocity().y + 1)) / 3, r
+									.nextInt(SCROLL_SPEED - 10) + 10));
+					asteroids
+							.add(new AsteroidMedium(asteroid.getX(), asteroid
+									.getY(), (int) AssetLoader.asteroidMed
+									.getWidth(), (int) AssetLoader.asteroidMed
+									.getWidth(), -r.nextInt((int) (asteroid
+									.getVelocity().y + 1)) / 3, r
+									.nextInt(SCROLL_SPEED - 10) + 10));
 					asteroids.remove(i);
 					break;
 				}
@@ -79,8 +90,11 @@ public class AsteroidHandler {
 				case 1:
 					if (lastY > -14)
 						lastY = -14;
-					asteroids.add(new AsteroidSmall(r.nextInt(136*100 - 14*100)/100, lastY
-							- r.nextInt(100), 14, 14, SCROLL_SPEED
+					asteroids.add(new AsteroidSmall(r
+							.nextInt(136 * 100 - 14 * 100) / 100, lastY
+							- r.nextInt(100), (int) AssetLoader.asteroidSml
+							.getWidth(), (int) AssetLoader.asteroidSml
+							.getWidth(), SCROLL_SPEED
 							- r.nextInt(SCROLL_SPEED / 2)));
 					totalCost += 1;
 					lastY = asteroids.get(asteroids.size() - 1).getY() - 14;
@@ -92,8 +106,11 @@ public class AsteroidHandler {
 				case 6:
 					if (lastY > -25)
 						lastY = -25;
-					asteroids.add(new AsteroidMedium(r.nextInt(136*100 - 23*100)/100, lastY
-							- r.nextInt(100), 23, 25, SCROLL_SPEED
+					asteroids.add(new AsteroidMedium(r
+							.nextInt(136 * 100 - 23 * 100) / 100, lastY
+							- r.nextInt(100), (int) AssetLoader.asteroidMed
+							.getWidth(), (int) AssetLoader.asteroidMed
+							.getWidth(), SCROLL_SPEED
 							- r.nextInt(SCROLL_SPEED / 2)));
 					totalCost += 2;
 					lastY = asteroids.get(asteroids.size() - 1).getY() - 25;
@@ -103,8 +120,11 @@ public class AsteroidHandler {
 				case 9:
 					if (lastY > -47)
 						lastY = -47;
-					asteroids.add(new AsteroidLarge(r.nextInt(136*100 - 46*100)/100, lastY
-							- r.nextInt(100), 46, 47, SCROLL_SPEED
+					asteroids.add(new AsteroidLarge(r
+							.nextInt(136 * 100 - 46 * 100) / 100, lastY
+							- r.nextInt(100), (int) AssetLoader.asteroidLrg
+							.getWidth(), (int) AssetLoader.asteroidLrg
+							.getWidth(), SCROLL_SPEED
 							- r.nextInt(SCROLL_SPEED / 2)));
 					totalCost += 4;
 					lastY = asteroids.get(asteroids.size() - 1).getY() - 46;
