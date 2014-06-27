@@ -1,0 +1,110 @@
+
+spritesheet.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Background
+  rotate: false
+  xy: 1, 14
+  size: 136, 240
+  orig: 136, 240
+  offset: 0, 0
+  index: -1
+Title
+  rotate: false
+  xy: 139, 212
+  size: 98, 42
+  orig: 98, 42
+  offset: 0, 0
+  index: -1
+Asteroid_lrg
+  rotate: false
+  xy: 139, 163
+  size: 46, 47
+  orig: 46, 47
+  offset: 0, 0
+  index: -1
+PlayAgain_Down
+  rotate: false
+  xy: 1, 1
+  size: 57, 11
+  orig: 57, 11
+  offset: 0, 0
+  index: -1
+PlayAgain_Up
+  rotate: false
+  xy: 60, 1
+  size: 57, 11
+  orig: 57, 11
+  offset: 0, 0
+  index: -1
+Facebook_Down
+  rotate: false
+  xy: 187, 199
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Facebook_Up
+  rotate: false
+  xy: 187, 186
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Highscore_Down
+  rotate: false
+  xy: 187, 173
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Highscore_Up
+  rotate: false
+  xy: 187, 160
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Ship2
+  rotate: false
+  xy: 139, 137
+  size: 25, 24
+  orig: 25, 24
+  offset: 0, 0
+  index: -1
+Asteroid_med
+  rotate: false
+  xy: 139, 110
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+Ship3
+  rotate: false
+  xy: 139, 84
+  size: 25, 24
+  orig: 25, 24
+  offset: 0, 0
+  index: -1
+Play_Down
+  rotate: false
+  xy: 166, 147
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Play_Up
+  rotate: false
+  xy: 166, 134
+  size: 54, 11
+  orig: 54, 11
+  offset: 0, 0
+  index: -1
+Asteroid_sml
+  rotate: false
+  xy: 239, 240
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
