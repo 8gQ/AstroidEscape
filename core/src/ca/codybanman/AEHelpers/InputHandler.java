@@ -45,7 +45,7 @@ public class InputHandler implements InputProcessor {
 		if (myWorld.isMenu()) {
 			myWorld.getButtonHandler().getPlayButton()
 					.isTouchDown(position.x, position.y);
-			myWorld.getButtonHandler().getHighScoreButton()
+			myWorld.getButtonHandler().getMenuButtons().get(2)
 					.isTouchDown(position.x, position.y);
 		} else if (myWorld.isReady()) {
 			myWorld.start();
@@ -53,6 +53,8 @@ public class InputHandler implements InputProcessor {
 			myWorld.getButtonHandler().getRetryButton()
 					.isTouchDown(position.x, position.y);
 			myWorld.getButtonHandler().getHighScoreButton()
+					.isTouchDown(position.x, position.y);
+			myWorld.getButtonHandler().getFacebookButton()
 					.isTouchDown(position.x, position.y);
 		}
 		myShip.touchDown(position.x);
@@ -70,9 +72,9 @@ public class InputHandler implements InputProcessor {
 					.isTouchUp(position.x, position.y)) {
 				myWorld.ready();
 				return true;
-			} else if (myWorld.getButtonHandler().getHighScoreButton()
+			} else if (myWorld.getButtonHandler().getMenuButtons().get(2)
 					.isTouchUp(position.x, position.y)) {
-				if(!AssetLoader.actionResolver.getSignedInGPGS()) {
+				if (!AssetLoader.actionResolver.getSignedInGPGS()) {
 					AssetLoader.actionResolver.signIn();
 				} else {
 					AssetLoader.actionResolver.getLeaderboardGPGS();
@@ -88,11 +90,16 @@ public class InputHandler implements InputProcessor {
 				return true;
 			} else if (myWorld.getButtonHandler().getHighScoreButton()
 					.isTouchUp(position.x, position.y)) {
-				if(!AssetLoader.actionResolver.getSignedInGPGS()) {
+				if (!AssetLoader.actionResolver.getSignedInGPGS()) {
 					AssetLoader.actionResolver.signIn();
 				} else {
 					AssetLoader.actionResolver.getLeaderboardGPGS();
 				}
+				return true;
+			} else if (myWorld.getButtonHandler().getFacebookButton()
+					.isTouchUp(position.x, position.y)) {
+				// TODO post to facebook
+				System.out.println("Post to Facebook!");
 				return true;
 			}
 		}

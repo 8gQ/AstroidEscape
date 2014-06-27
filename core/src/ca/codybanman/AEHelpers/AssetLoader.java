@@ -73,6 +73,13 @@ public class AssetLoader {
 
 		highScoreButtonDown = spriteSheet.createSprite("Highscore_Down");
 		highScoreButtonDown.flip(false, true);
+		
+		facebookUp = spriteSheet.createSprite("Facebook_Up");
+		facebookUp.flip(false, true);
+		
+		facebookDown = spriteSheet.createSprite("Facebook_Down");
+		facebookDown.flip(false, true);
+		
 
 		bg = spriteSheet.createSprite("Background");
 		bg.flip(false, true);
@@ -85,7 +92,7 @@ public class AssetLoader {
 
 		TextureRegion[] ships = { ship1, ship2 };
 		shipAnimation = new Animation(0.03f, ships);
-		shipAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		shipAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 		asteroidSml = spriteSheet.createSprite("Asteroid_sml");
 		asteroidSml.flip(false, true);

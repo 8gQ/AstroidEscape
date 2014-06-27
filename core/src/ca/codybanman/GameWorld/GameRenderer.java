@@ -159,32 +159,33 @@ public class GameRenderer {
 			if (myWorld.isGameOver()) {
 				AssetLoader.font.setScale(.50f, -.50f);
 				AssetLoader.font.draw(batcher, "Game Over!", 68 - 47,
-						midPointY - 35);
+						midPointY - 35 - 25);
 				AssetLoader.font.setScale(.25f, -.25f);
 				AssetLoader.font.draw(batcher,
 						"  Distance: " + format.format(myWorld.getScore()), 22,
-						midPointY - 16);
+						midPointY - 16 - 25);
 				AssetLoader.font.draw(
 						batcher,
-						"High Score: "
+						" Highscore: "
 								+ format.format(AssetLoader.getHighScore()),
-						21, midPointY - 10);
+						21, midPointY - 10 - 25);
 			} else {
 				AssetLoader.font.setScale(.50f, -.50f);
-				AssetLoader.font.draw(batcher, "High Score!", 68 - 47,
-						midPointY - 35);
+				AssetLoader.font.draw(batcher, "Highscore!", 68 - 47,
+						midPointY - 35 - 25);
 				AssetLoader.font.setScale(.25f, -.25f);
 				AssetLoader.font.draw(batcher,
 						"     Score: " + format.format(myWorld.getScore()), 22,
-						midPointY - 16);
+						midPointY - 16 - 25);
 				AssetLoader.font.draw(
 						batcher,
 						"High Score: "
 								+ format.format(AssetLoader.getHighScore()),
-						21, midPointY - 10);
+						21, midPointY - 10 - 25);
 			}
 			menuButtons.get(1).draw(batcher);
-			menuButtons.get(2).draw(batcher);
+			menuButtons.get(4).draw(batcher);
+			menuButtons.get(3).draw(batcher);
 
 		}
 	}
