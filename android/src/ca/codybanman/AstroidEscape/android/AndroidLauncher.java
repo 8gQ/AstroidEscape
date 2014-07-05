@@ -2,6 +2,7 @@ package ca.codybanman.AstroidEscape.android;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.AstroidEscape.AEGame;
 import ca.codybanman.GameServices.ActionResolver;
+
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.facebook.AppEventsLogger;
@@ -54,8 +56,6 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		gameHelper = new GameHelper(this, GameHelper.CLIENT_ALL);
-
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		cfg.useGLSurfaceView20API18 = true;
 		cfg.useAccelerometer = false;
@@ -70,6 +70,11 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
 		View gameView = initializeForView(new AEGame(this, this), cfg);
+		if(gameHelper == null){
+			gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+			gameHelper.enableDebugLog(true);
+		}
+		gameHelper.setup(this);
 
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
@@ -102,6 +107,8 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 		adView.loadAd(adRequest);
 		adView.resume();
+		
+		
 
 	}
 
@@ -114,14 +121,21 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 	@Override
 	public void onStart() {
 		super.onStart();
-
 		EasyTracker.getInstance(this).activityStart(this); // Add this method.
+		gameHelper.onStart(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 		EasyTracker.getInstance(this).activityStop(this); // Add this method.
+		gameHelper.onStop();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		gameHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -140,9 +154,11 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 			runOnUiThread(new Runnable() {
 				public void run() {
 					gameHelper.beginUserInitiatedSignIn();
+					System.out.println("Login G+");
 				}
 			});
 		} catch (final Exception ex) {
+			System.out.println("Sign in failure");
 		}
 	}
 

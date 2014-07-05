@@ -75,7 +75,7 @@ public class InputHandler implements InputProcessor {
 			} else if (myWorld.getButtonHandler().getMenuButtons().get(2)
 					.isTouchUp(position.x, position.y)) {
 				if (!AssetLoader.actionResolver.getSignedInGPGS()) {
-					AssetLoader.actionResolver.signIn();
+					AssetLoader.actionResolver.loginGPGS();
 				} else {
 					AssetLoader.actionResolver.getLeaderboardGPGS();
 				}
@@ -91,14 +91,14 @@ public class InputHandler implements InputProcessor {
 			} else if (myWorld.getButtonHandler().getHighScoreButton()
 					.isTouchUp(position.x, position.y)) {
 				if (!AssetLoader.actionResolver.getSignedInGPGS()) {
-					AssetLoader.actionResolver.signIn();
+					AssetLoader.actionResolver.loginGPGS();
 				} else {
 					AssetLoader.actionResolver.getLeaderboardGPGS();
 				}
 				return true;
 			} else if (myWorld.getButtonHandler().getFacebookButton()
 					.isTouchUp(position.x, position.y)) {
-				// TODO post to facebook
+				// TODO post to facebook 
 				System.out.println("Post to Facebook!");
 				return true;
 			}

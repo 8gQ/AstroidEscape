@@ -46,11 +46,6 @@ public class GameWorld {
 
 		score = 0;
 
-		if (AssetLoader.actionResolver.getSignedInGPGS()) {
-			AssetLoader.actionResolver.submitScoreGPGS((int) (AssetLoader.prefs
-					.getFloat("highScore")) * 100);
-		}
-
 	}
 
 	public void update(float delta) {
@@ -68,12 +63,13 @@ public class GameWorld {
 			updateRunning(delta);
 			AssetLoader.myRequestHandler.showAds(false);
 			break;
+		case HIGHSCORE:
+			AssetLoader.setHighScore(score);
 		case GAMEOVER:
 			AssetLoader.myRequestHandler.showAds(true);
-			break;
-		case HIGHSCORE:
-			AssetLoader.myRequestHandler.showAds(true);
-			AssetLoader.setHighScore(score);
+			if (AssetLoader.actionResolver.getSignedInGPGS()) {
+				AssetLoader.actionResolver.submitScoreGPGS((int) (score * 100));
+			}
 			break;
 		default:
 			break;
