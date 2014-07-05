@@ -8,7 +8,8 @@ TODO
 ====
 - [x] Finish implementing ads
 - [x] Implement Google Analytics
-- [ ] Implement Google Leaderboards and Acheivments
+- [x] Implement Google Leaderboards 
+- [ ] Implement Google Acheivments
 - [x] Implement Facebook install analytics
 - [ ] Implement Facebook score posting
 - [ ] Implement Twitter score posting
