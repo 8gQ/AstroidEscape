@@ -9,4 +9,5 @@ public interface ActionResolver {
 	public void getLeaderboardGPGS();
 	public void getAchievementsGPGS();
 	public void signIn();
+	public void postToFacebook(double score);
 }

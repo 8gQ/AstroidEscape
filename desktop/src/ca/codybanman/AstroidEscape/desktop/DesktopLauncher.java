@@ -70,4 +70,10 @@ public class DesktopLauncher implements IActivityRequestHandler, ActionResolver{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void postToFacebook(double score) {
+		// TODO Auto-generated method stub
+		
+	}
 }

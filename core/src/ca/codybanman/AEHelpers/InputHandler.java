@@ -98,8 +98,9 @@ public class InputHandler implements InputProcessor {
 				return true;
 			} else if (myWorld.getButtonHandler().getFacebookButton()
 					.isTouchUp(position.x, position.y)) {
-				// TODO post to facebook 
+				// TODO post to facebook
 				System.out.println("Post to Facebook!");
+				AssetLoader.actionResolver.postToFacebook(myWorld.getScore());
 				return true;
 			}
 		}

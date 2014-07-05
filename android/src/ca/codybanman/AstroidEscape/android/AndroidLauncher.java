@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,9 +16,12 @@ import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.AstroidEscape.AEGame;
 import ca.codybanman.GameServices.ActionResolver;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.facebook.AppEventsLogger;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -26,10 +30,12 @@ import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
-@SuppressLint("HandlerLeak") public class AndroidLauncher extends AndroidApplication implements
+@SuppressLint("HandlerLeak")
+public class AndroidLauncher extends AndroidApplication implements
 		IActivityRequestHandler, GameHelperListener, ActionResolver {
 
 	private GameHelper gameHelper;
+	private UiLifecycleHelper uiHelper;
 
 	private final int SHOW_ADS = 1;
 	private final int HIDE_ADS = 0;
@@ -70,11 +76,14 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
 		View gameView = initializeForView(new AEGame(this, this), cfg);
-		if(gameHelper == null){
+		if (gameHelper == null) {
 			gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
 			gameHelper.enableDebugLog(true);
 		}
 		gameHelper.setup(this);
+
+		uiHelper = new UiLifecycleHelper(this, null);
+		uiHelper.onCreate(savedInstanceState);
 
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
@@ -107,8 +116,6 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 		adView.loadAd(adRequest);
 		adView.resume();
-		
-		
 
 	}
 
@@ -116,6 +123,7 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 	public void onResume() {
 		super.onResume();
 		AppEventsLogger.activateApp(this, "1441691276089861");
+		uiHelper.onResume();
 	}
 
 	@Override
@@ -130,12 +138,40 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 		super.onStop();
 		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 		gameHelper.onStop();
+		uiHelper.onStop();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		gameHelper.onActivityResult(requestCode, resultCode, data);
+		uiHelper.onActivityResult(requestCode, resultCode, data,
+				new FacebookDialog.Callback() {
+					@Override
+					public void onError(FacebookDialog.PendingCall pendingCall,
+							Exception error, Bundle data) {
+						Log.e("Activity",
+								String.format("Error: %s", error.toString()));
+					}
+
+					@Override
+					public void onComplete(
+							FacebookDialog.PendingCall pendingCall, Bundle data) {
+						Log.i("Activity", "Success!");
+					}
+				});
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		uiHelper.onDestroy();
 	}
 
 	@Override
@@ -164,7 +200,8 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 	@Override
 	public void submitScoreGPGS(int score) {
-		Games.Leaderboards.submitScore(gameHelper.getApiClient(), "CgkIuZDUg8cCEAIQAQ", score);
+		Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+				"CgkIuZDUg8cCEAIQAQ", score);
 	}
 
 	@Override
@@ -174,12 +211,17 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 	@Override
 	public void getLeaderboardGPGS() {
-		this.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), "CgkIuZDUg8cCEAIQAQ"), 15453525);
+		this.startActivityForResult(
+				Games.Leaderboards.getLeaderboardIntent(
+						gameHelper.getApiClient(), "CgkIuZDUg8cCEAIQAQ"),
+				15453525);
 	}
 
 	@Override
 	public void getAchievementsGPGS() {
-		startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 15154545);
+		startActivityForResult(
+				Games.Achievements.getAchievementsIntent(gameHelper
+						.getApiClient()), 15154545);
 	}
 
 	@Override
@@ -198,5 +240,29 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 	public void onSignInSucceeded() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void postToFacebook(double scores) {
+		int num = (int) (100 * scores);
+		float score = ((float) (num)) / 100;
+		if (FacebookDialog.canPresentShareDialog(getApplicationContext(),
+				FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+			// Publish the post using the Share Dialog
+			FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+					this)
+					
+					.setName("I just scored " + score + " on Asteroid Escape!")
+					.setCaption("Asteroid Escape - (play.google.com)")
+					.setDescription("Can you do better?")
+					.setPicture("http://s28.postimg.org/qtkhsp07t/ae_launcher.png")
+					.setLink(
+							"https://play.google.com/store/apps/details?id=ca.codybanman.AstroidEscape")
+					.build();
+			uiHelper.trackPendingDialogCall(shareDialog.present());
+
+		} else {
+			// Fallback. For example, publish the post using the Feed Dialog
+		}
 	}
 }
