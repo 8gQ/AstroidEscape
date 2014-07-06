@@ -16,7 +16,6 @@ import ca.codybanman.AEHelpers.IActivityRequestHandler;
 import ca.codybanman.AstroidEscape.AEGame;
 import ca.codybanman.GameServices.ActionResolver;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.facebook.AppEventsLogger;
