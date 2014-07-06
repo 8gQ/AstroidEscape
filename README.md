@@ -9,12 +9,12 @@ TODO
 - [x] Finish implementing ads
 - [x] Implement Google Analytics
 - [x] Implement Google Leaderboards 
-- [ ] Implement Google Acheivments
 - [x] Implement Facebook install analytics
-- [ ] Implement Facebook score posting
+- [x] Implement Facebook score posting
+- [x] Resize buttons to be all the same size
 - [ ] Implement Twitter score posting
 - [ ] Fix collision boxes on LargeAsteroid
-- [ ] Resize buttons to be all the same size
+- [ ] Implement Google Acheivments
 
 Ideas
 =====
