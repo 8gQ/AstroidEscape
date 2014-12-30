@@ -1,4 +1,6 @@
-AstroidEscape - Android
+Now Deprecated. Game has been redone in Unity3D.
+
+AstroidEscape - iOS
 =============
 
 An arcade space survival game.
