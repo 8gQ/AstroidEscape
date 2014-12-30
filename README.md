@@ -1,3 +1,5 @@
+Now Deprecated. Game has been redone in Unity3D.
+
 AstroidEscape - Android
 =============
 
